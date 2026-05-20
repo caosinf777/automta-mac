@@ -89,8 +89,8 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "Snowballmx",
-        "repo": "automta-mac-releases"
+        "owner": "caosinf777",
+        "repo": "automta-mac"
       }
     ]
   }
