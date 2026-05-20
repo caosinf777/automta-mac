@@ -1,0 +1,97 @@
+{
+  "name": "automta-mac",
+  "version": "1.0.0",
+  "description": "AutoMTA — Agentes de IA con Computer Use para Mac",
+  "main": "dist-electron/main.js",
+  "author": {
+    "name": "AutoMTA",
+    "email": "hola@automta.au"
+  },
+  "homepage": "https://automta.au",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:vite\" \"npm run dev:electron\"",
+    "dev:vite": "cd .. && vite --port 3000",
+    "dev:electron": "wait-on http://localhost:3000 && cross-env IS_ELECTRON=true electron .",
+    "build": "npm run build:vite && npm run build:electron",
+    "build:vite": "cd .. && cross-env NODE_OPTIONS='--max-old-space-size=8192' vite build",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "dist": "npm run build && electron-builder --mac",
+    "dist:dmg": "npm run build && electron-builder --mac dmg",
+    "dist:all": "npm run build && electron-builder --mac --win --linux",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "@nut-tree-fork/nut-js": "^4.2.2",
+    "electron-store": "^8.2.0",
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "@electron/notarize": "^2.5.0",
+    "@types/node": "^18.19.130",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^33.3.1",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.4.5",
+    "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "au.automta.mac",
+    "productName": "AutoMTA",
+    "copyright": "Copyright © 2025 AutoMTA",
+    "directories": {
+      "buildResources": "assets",
+      "output": "release"
+    },
+    "files": [
+      "dist-electron/**/*",
+      "../build/**/*",
+      "assets/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../build",
+        "to": "app",
+        "filter": ["**/*"]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "assets/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "assets/entitlements.mac.plist",
+      "entitlementsInherit": "assets/entitlements.mac.plist",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["arm64", "x64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["arm64", "x64"]
+        }
+      ]
+    },
+    "dmg": {
+      "title": "AutoMTA ${version}",
+      "icon": "assets/icon.icns",
+      "background": "assets/dmg-background.png",
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        { "x": 140, "y": 180, "type": "file" },
+        { "x": 400, "y": 180, "type": "link", "path": "/Applications" }
+      ]
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Snowballmx",
+        "repo": "automta-mac-releases"
+      }
+    ]
+  }
+}

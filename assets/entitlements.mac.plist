@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Required for Hardened Runtime + notarization -->
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <true/>
+
+  <!-- Screen Recording — needed for Computer Use screenshots -->
+  <key>com.apple.security.device.camera</key>
+  <false/>
+
+  <!-- File system access -->
+  <key>com.apple.security.files.user-selected.read-write</key>
+  <true/>
+  <key>com.apple.security.files.downloads.read-write</key>
+  <true/>
+
+  <!-- Network access -->
+  <key>com.apple.security.network.client</key>
+  <true/>
+  <key>com.apple.security.network.server</key>
+  <false/>
+
+  <!-- Automation / AppleScript (needed for getRunningApps) -->
+  <key>com.apple.security.automation.apple-events</key>
+  <true/>
+
+  <!-- Disable library validation to allow native modules (nut-js) -->
+  <key>com.apple.security.cs.disable-library-validation</key>
+  <true/>
+</dict>
+</plist>
